@@ -45,6 +45,7 @@ namespace FileManager
         public FileBrowser() : this(Directory.GetCurrentDirectory())
         {
             InitializeComponent();
+            this.Resources.Add("FontSize", 12);
         }
 
         public FileBrowser(string currentPath)
@@ -78,6 +79,7 @@ namespace FileManager
             {
                 if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3  )
                     return;
+
                 this.FontSize -= 3;
                 this.TextColumnFileName.FontSize -= 3;
             }
