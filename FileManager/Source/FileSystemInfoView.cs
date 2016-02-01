@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows.Markup;
+using System.Windows.Navigation;
 using MaterialDesignThemes.Wpf;
 
 namespace FileManager
 {
-    public struct FileSystemInfoView
+    public class FileSystemInfoView
     {
         // TODO: Implement icon property.
-        //[DisplayName("")]
-        //public PackIcon Icon { get; private set; }
+        public PackIcon Icon { get; private set; }
 
         public string Name => _fileSystemInfoItem.Name;
 
@@ -23,23 +24,22 @@ namespace FileManager
         public FileSystemInfoView(FileSystemInfo fileSystemInfo)
         {
             this._fileSystemInfoItem = fileSystemInfo;
-            PackIcon packIcon;
+            this.Icon = null;
 
             if (IsDirectoryMethod(fileSystemInfo))
             {
-                packIcon = new PackIcon {Kind = PackIconKind.Folder};
+                this.Icon = new PackIcon {Kind = PackIconKind.Folder};
             }
             else
             {
-                packIcon = new PackIcon {Kind = PackIconKind.File};
+                this.Icon = new PackIcon {Kind = PackIconKind.File};
             }
-
-            // TODO: Implement icon.
         }
 
         private bool IsDirectoryMethod(FileSystemInfo fileSystemInfo)
         {
-            return (fileSystemInfo.Attributes & FileAttributes.Directory) != 0;
+            bool result = (fileSystemInfo.Attributes & FileAttributes.Directory) != 0;
+            return result;
         }
     }
 }

@@ -16,7 +16,7 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="{Binding Height, ElementName=ButtonGoUp}" />
@@ -24,7 +24,21 @@
         <DockPanel Grid.Column="0" Grid.RowSpan="2">
             <TextBox x:Name="TextBoxPath" Text="Path" DockPanel.Dock="Top" KeyDown="TextBoxPath_KeyDown"  />
             <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single"
-                     MouseDoubleClick="ListBoxItems_OnMouseDoubleClick" />
+            	MouseDoubleClick="ListBoxItems_OnMouseDoubleClick"
+            	ItemsSource="{Binding}"
+            	AutoGenerateColumns="False"
+                      >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="local:FileSystemInfoView">
+                                <materialDesign:PackIcon x:Name="PackIcon" Kind="{Binding Icon.Kind}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn x:Name="TextColumnFileName" Binding="{Binding Path=Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </DockPanel>
         <Button x:Name="ButtonGoUp" Grid.Column="0" Content="Go up" Click="ButtonGoUp_Click" Grid.Row="1" />
     </Grid>
