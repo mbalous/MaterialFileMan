@@ -15,6 +15,7 @@ namespace FileManager
     public partial class FileBrowser : UserControl
     {
         private DirectoryInfo _currentDirectoryInfo;
+        
 
         public string CurrentPath
         {
@@ -35,6 +36,19 @@ namespace FileManager
                 }
 
                 this.ListBoxItems.ItemsSource = systemInfoViews;
+            }
+        }
+
+        public UInt32 ElementSizing
+        {
+            get { return Convert.ToUInt32(this.FontSize); }
+            set
+            {
+                if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3)
+                    throw new InvalidOperationException("Font is can't be 0 or smaller.");
+
+                this.FontSize = value;
+                this.TextColumnFileName.FontSize = value;
             }
         }
 
@@ -71,23 +85,6 @@ namespace FileManager
                 throw new InvalidOperationException();
 
             CurrentPath = _currentDirectoryInfo.Parent.FullName;
-        }
-
-        private void ChangeTextSize_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (((MenuItem) sender).Equals(MenuItemContextDecreaseTextSize))
-            {
-                if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3  )
-                    return;
-
-                this.FontSize -= 3;
-                this.TextColumnFileName.FontSize -= 3;
-            }
-            else if (((MenuItem) sender).Equals(MenuItemContextIncreaseTextSize))
-            {
-                this.FontSize += 3;
-                this.TextColumnFileName.FontSize += 3;
-            }
         }
 
         private void ListBoxItems_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -8,15 +8,6 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.ContextMenu>
-        <ContextMenu>
-            <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
-                      Click="ChangeTextSize_OnClick" />
-            <MenuItem x:Name="MenuItemContextIncreaseTextSize" Header="Increase text size"
-                      Click="ChangeTextSize_OnClick" />
-        </ContextMenu>
-    </UserControl.ContextMenu>
-    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,17 +30,17 @@
                       ItemsSource="{Binding}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserResize="False" >
+                    <DataGridTemplateColumn CanUserResize="False" Header="Type" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="local:FileSystemInfoView">
                                 <materialDesign:PackIcon x:Name="PackIconFileIcon" Kind="{Binding Icon.Kind}"
-                                                         VerticalAlignment="Center" 
+                                                         VerticalAlignment="Center"
                                                          Height="{Binding FontSize, ElementName=userControl}"
                                                          Width="{Binding FontSize, ElementName=userControl}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn x:Name="TextColumnFileName" Binding="{Binding Path=Name}"/>
+                    <DataGridTextColumn x:Name="TextColumnFileName" Header="Name" Binding="{Binding Path=Name}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

@@ -6,16 +6,27 @@
         xmlns:local="clr-namespace:FileManager"
         mc:Ignorable="d"
         Title="WPF File Manager" Height="450" Width="625">
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
+                      Click="ChangeTextSize_OnClick" />
+            <MenuItem x:Name="MenuItemContextIncreaseTextSize" Header="Increase text size"
+                      Click="ChangeTextSize_OnClick" />
+            <Separator />
+            <MenuItem x:Name="MenuItemColorSwitch" Header="Switch color scheme" 
+                      Click="MenuItemColorSwitch_OnClick" />
+        </ContextMenu>
+    </Window.ContextMenu>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:FileBrowser Grid.Column="0" />
+        <local:FileBrowser x:Name="FileBrowser1" Grid.Column="0" />
         <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
                       Width="3" />
-        <local:FileBrowser Grid.Column="2" />
+        <local:FileBrowser x:Name="FileBrowser2" Grid.Column="2" />
 
     </Grid>
 </Window>
