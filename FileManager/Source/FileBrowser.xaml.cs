@@ -88,9 +88,9 @@ namespace FileManager
         {
             if (ListBoxItems.SelectedItem == null)
                 return;
-            FileSystemInfo selectedItem = ListBoxItems.SelectedItem as FileSystemInfo;
+            FileSystemInfoView selectedItem = (FileSystemInfoView) ListBoxItems.SelectedItem;
 
-            if ((selectedItem.Attributes & FileAttributes.Directory) != 0)
+            if (selectedItem.IsDirectory)
             {
                 this.CurrentPath = selectedItem.FullName;
             }
