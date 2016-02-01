@@ -23,11 +23,10 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.RowSpan="2">
             <TextBox x:Name="TextBoxPath" Text="Path" DockPanel.Dock="Top" KeyDown="TextBoxPath_KeyDown"  />
-            <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single"
+            <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True"
             	MouseDoubleClick="ListBoxItems_OnMouseDoubleClick"
             	ItemsSource="{Binding}"
-            	AutoGenerateColumns="False"
-                      >
+            	AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
