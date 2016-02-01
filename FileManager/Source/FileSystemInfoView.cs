@@ -8,16 +8,15 @@ namespace FileManager
 {
     public class FileSystemInfoView
     {
-        // TODO: Implement icon property.
         public PackIcon Icon { get; private set; }
 
-        public string Name => _fileSystemInfoItem.Name;
+        public string Name => this._fileSystemInfoItem.Name;
 
         [Browsable(false)]
-        internal string FullName => _fileSystemInfoItem.FullName;
+        public string FullName => this._fileSystemInfoItem.FullName;
 
         [Browsable(false)]
-        internal bool IsDirectory => IsDirectoryMethod(_fileSystemInfoItem);
+        public bool IsDirectory => IsDirectoryMethod(this._fileSystemInfoItem);
 
         private readonly FileSystemInfo _fileSystemInfoItem;
 
@@ -27,13 +26,9 @@ namespace FileManager
             this.Icon = null;
 
             if (IsDirectoryMethod(fileSystemInfo))
-            {
                 this.Icon = new PackIcon {Kind = PackIconKind.Folder};
-            }
             else
-            {
                 this.Icon = new PackIcon {Kind = PackIconKind.File};
-            }
         }
 
         private bool IsDirectoryMethod(FileSystemInfo fileSystemInfo)

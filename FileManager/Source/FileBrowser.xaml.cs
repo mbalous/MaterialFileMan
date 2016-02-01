@@ -76,11 +76,15 @@ namespace FileManager
         {
             if (((MenuItem) sender).Equals(MenuItemContextDecreaseTextSize))
             {
+                if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3  )
+                    return;
                 this.FontSize -= 3;
+                this.TextColumnFileName.FontSize -= 3;
             }
             else if (((MenuItem) sender).Equals(MenuItemContextIncreaseTextSize))
             {
                 this.FontSize += 3;
+                this.TextColumnFileName.FontSize += 3;
             }
         }
 
