@@ -8,12 +8,14 @@
         Title="WPF File Manager" Height="450" Width="625">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <local:FileBrowser Grid.Column="0" />
+        <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
+                      Width="3" />
+        <local:FileBrowser Grid.Column="2" />
 
-        <local:FileBrowser FontSize="15" Grid.Column="0" />
-        <local:FileBrowser FontSize="15" Grid.Column="1" />
-        <GridSplitter Grid.Column="0" ResizeDirection="Columns" Width="5" />
     </Grid>
 </Window>
