@@ -15,37 +15,42 @@ namespace FileManager
     public partial class FileBrowser : UserControl
     {
         private DirectoryInfo _currentDirectoryInfo;
-        
 
         public string CurrentPath
         {
-            get { return _currentDirectoryInfo.FullName; }
+            get { return this._currentDirectoryInfo.FullName; }
             private set
             {
-                _currentDirectoryInfo = new DirectoryInfo(value);
-                TextBoxPath.Text = _currentDirectoryInfo.FullName;
-                List<FileSystemInfo> fileSystemInfos = new List<FileSystemInfo>(20);
-                DirectoryInfo directoryInfo = new DirectoryInfo(_currentDirectoryInfo.FullName);
+                this._currentDirectoryInfo = new DirectoryInfo(value);
+                this.TextBoxPath.Text = this._currentDirectoryInfo.FullName;
+                List<FileSystemInfo> fileSystemInfos = new List<FileSystemInfo>();
+                DirectoryInfo directoryInfo = new DirectoryInfo(this._currentDirectoryInfo.FullName);
                 fileSystemInfos.AddRange(directoryInfo.GetDirectories());
                 fileSystemInfos.AddRange(directoryInfo.GetFiles());
 
-                LinkedList<FileSystemInfoView> systemInfoViews = new LinkedList<FileSystemInfoView>();
+                LinkedList<BrowserItem> systemInfoViews = new LinkedList<BrowserItem>();
+                if (CanGoUp())
+                {
+                    systemInfoViews.AddFirst(new GoUpItem());
+                }
                 foreach (FileSystemInfo systemInfoView in fileSystemInfos)
                 {
-                    systemInfoViews.AddLast(new FileSystemInfoView(systemInfoView));
+                    systemInfoViews.AddLast(new FileSystemInfoItem(systemInfoView));
                 }
 
                 this.ListBoxItems.ItemsSource = systemInfoViews;
             }
         }
 
-        public UInt32 ElementSizing
+        public int ElementSizing
         {
-            get { return Convert.ToUInt32(this.FontSize); }
+            get { return (int) this.FontSize; }
             set
             {
                 if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3)
-                    throw new InvalidOperationException("Font is can't be 0 or smaller.");
+                {
+                    throw new InvalidOperationException("Font is can't be 3 or smaller.");
+                }
 
                 this.FontSize = value;
                 this.TextColumnFileName.FontSize = value;
@@ -58,8 +63,6 @@ namespace FileManager
         /// </summary>
         public FileBrowser() : this(Directory.GetCurrentDirectory())
         {
-            InitializeComponent();
-            this.Resources.Add("FontSize", 12);
         }
 
         public FileBrowser(string currentPath)
@@ -71,28 +74,42 @@ namespace FileManager
         private void ButtonGoUp_Click(object sender, RoutedEventArgs e)
         {
             if (CanGoUp())
+            {
                 GoUp();
+            }
         }
 
         public bool CanGoUp()
         {
-            return _currentDirectoryInfo.Parent != null;
+            return this._currentDirectoryInfo.Parent != null;
         }
 
         public void GoUp()
         {
             if (!CanGoUp())
+            {
                 throw new InvalidOperationException();
+            }
 
-            CurrentPath = _currentDirectoryInfo.Parent.FullName;
+            this.CurrentPath = this._currentDirectoryInfo.Parent.FullName;
         }
 
         private void ListBoxItems_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ListBoxItems.SelectedItem == null)
+            if (this.ListBoxItems.SelectedItem == null)
+            {
                 return;
-            FileSystemInfoView selectedItem = (FileSystemInfoView) ListBoxItems.SelectedItem;
+            }
+            if (this.ListBoxItems.SelectedItem is GoUpItem)
+            {
+                if (CanGoUp())
+                {
+                    GoUp();
+                }
+                return;
+            }
 
+            FileSystemInfoItem selectedItem = (FileSystemInfoItem) this.ListBoxItems.SelectedItem;
             if (selectedItem.IsDirectory)
             {
                 this.CurrentPath = selectedItem.FullName;
@@ -105,12 +122,20 @@ namespace FileManager
 
         private void TextBoxPath_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            switch (e.Key)
             {
-                if (Directory.Exists(TextBoxPath.Text))
-                {
-                    this.CurrentPath = TextBoxPath.Text;
-                }
+                case Key.Enter:
+                    if (Directory.Exists(this.TextBoxPath.Text))
+                    {
+                        this.CurrentPath = this.TextBoxPath.Text;
+                    }
+                    break;
+                case Key.Back:
+                    if (CanGoUp())
+                    {
+                        GoUp();
+                    }
+                    break;
             }
         }
     }

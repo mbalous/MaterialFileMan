@@ -27,6 +27,5 @@
         <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
                       Width="3" />
         <local:FileBrowser x:Name="FileBrowser2" Grid.Column="2" />
-
     </Grid>
 </Window>

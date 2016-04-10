@@ -10,7 +10,7 @@ namespace FileManager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -19,12 +19,12 @@ namespace FileManager
 
         private void ChangeTextSize_OnClick(object sender, RoutedEventArgs e)
         {
-            if (((MenuItem) sender).Equals(MenuItemContextDecreaseTextSize))
+            if (((MenuItem) sender).Equals(this.MenuItemContextDecreaseTextSize))
             {
                 this.FileBrowser1.ElementSizing -= 3;
                 this.FileBrowser2.ElementSizing -= 3;
             }
-            else if (((MenuItem) sender).Equals(MenuItemContextIncreaseTextSize))
+            else if (((MenuItem) sender).Equals(this.MenuItemContextIncreaseTextSize))
             {
                 this.FileBrowser1.ElementSizing += 3;
                 this.FileBrowser2.ElementSizing += 3;
@@ -33,16 +33,24 @@ namespace FileManager
 
         private void MenuItemColorSwitch_OnClick(object sender, RoutedEventArgs e)
         {
-            ResourceDictionary existingResourceDictionary = Application.Current.Resources.MergedDictionaries
-               .Where(rd => rd.Source != null)
-               .SingleOrDefault(rd => Regex.Match(rd.Source.OriginalString, @"(\/MaterialDesignThemes.Wpf;component\/Themes\/MaterialDesignTheme\.)((Light)|(Dark))", RegexOptions.Compiled).Success);
+            ResourceDictionary existingResourceDictionary =
+                Application.Current.Resources.MergedDictionaries.Where(rd => rd.Source != null).SingleOrDefault(rd =>
+                    Regex.Match(rd.Source.OriginalString,
+                        @"(\/MaterialDesignThemes.Wpf;component\/Themes\/MaterialDesignTheme\.)((Light)|(Dark))",
+                        RegexOptions.Compiled).Success);
             if (existingResourceDictionary == null)
+            {
                 throw new ApplicationException($"{nameof(existingResourceDictionary)} equals null.");
+            }
 
             if (existingResourceDictionary.Source.ToString().ToLower().Contains("dark"))
+            {
                 new PaletteHelper().SetLightDark(false);
+            }
             else
+            {
                 new PaletteHelper().SetLightDark(true);
+            }
         }
     }
 }

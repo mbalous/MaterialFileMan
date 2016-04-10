@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Windows.Markup;
-using System.Windows.Navigation;
 using MaterialDesignThemes.Wpf;
 
 namespace FileManager
 {
-    public class FileSystemInfoView
+    public sealed class FileSystemInfoItem : BrowserItem
     {
-        public PackIcon Icon { get; private set; }
-
-        public string Name => this._fileSystemInfoItem.Name;
+        public override string Text => this._fileSystemInfoItem.Name;
 
         [Browsable(false)]
         public string FullName => this._fileSystemInfoItem.FullName;
@@ -20,15 +16,19 @@ namespace FileManager
 
         private readonly FileSystemInfo _fileSystemInfoItem;
 
-        public FileSystemInfoView(FileSystemInfo fileSystemInfo)
+        public FileSystemInfoItem(FileSystemInfo fileSystemInfo)
         {
             this._fileSystemInfoItem = fileSystemInfo;
-            this.Icon = null;
+            Icon = null;
 
             if (IsDirectoryMethod(fileSystemInfo))
-                this.Icon = new PackIcon {Kind = PackIconKind.Folder};
+            {
+                Icon = new PackIcon {Kind = PackIconKind.Folder};
+            }
             else
-                this.Icon = new PackIcon {Kind = PackIconKind.File};
+            {
+                Icon = new PackIcon {Kind = PackIconKind.File};
+            }
         }
 
         private bool IsDirectoryMethod(FileSystemInfo fileSystemInfo)
