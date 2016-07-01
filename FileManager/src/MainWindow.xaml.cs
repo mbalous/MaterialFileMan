@@ -12,9 +12,12 @@ namespace FileManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly PaletteHelper _paletteHelper;
+        
         public MainWindow()
         {
             InitializeComponent();
+            this._paletteHelper = new PaletteHelper();
         }
 
         private void ChangeTextSize_OnClick(object sender, RoutedEventArgs e)
@@ -38,19 +41,13 @@ namespace FileManager
                     Regex.Match(rd.Source.OriginalString,
                         @"(\/MaterialDesignThemes.Wpf;component\/Themes\/MaterialDesignTheme\.)((Light)|(Dark))",
                         RegexOptions.Compiled).Success);
+
             if (existingResourceDictionary == null)
             {
                 throw new ApplicationException($"{nameof(existingResourceDictionary)} equals null.");
             }
 
-            if (existingResourceDictionary.Source.ToString().ToLower().Contains("dark"))
-            {
-                new PaletteHelper().SetLightDark(false);
-            }
-            else
-            {
-                new PaletteHelper().SetLightDark(true);
-            }
+            this._paletteHelper.SetLightDark(!existingResourceDictionary.Source.ToString().ToLower().Contains("dark"));
         }
     }
 }
