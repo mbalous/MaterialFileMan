@@ -24,7 +24,7 @@
 
         <DockPanel Grid.Column="0" Grid.RowSpan="2">
             <TextBox x:Name="TextBoxPath" DockPanel.Dock="Top"
-                     materialDesign:TextFieldAssist.Hint="Path"
+                     materialDesign:HintAssist.Hint="Path"
                      KeyDown="TextBoxPath_KeyDown" />
             <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True"
                       MouseDoubleClick="ListBoxItems_OnMouseDoubleClick"
