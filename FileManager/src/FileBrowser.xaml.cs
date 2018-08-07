@@ -42,20 +42,21 @@ namespace FileManager
             }
         }
 
-        public int ElementSizing
+        public double ElementSizing
         {
-            get { return (int) this.FontSize; }
+            get { return (double)GetValue(ElementSizingProperty); }
             set
             {
-                if (this.FontSize <= 3 || this.TextColumnFileName.FontSize <= 3)
-                {
-                    throw new InvalidOperationException("Font is can't be 3 or smaller.");
-                }
-
-                this.FontSize = value;
-                this.TextColumnFileName.FontSize = value;
+                SetValue(ElementSizingProperty, value);
+                _dataContext.ElementSizing = value;
             }
         }
+
+        // Using a DependencyProperty as the backing store for ElementSizing.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ElementSizingProperty =
+            DependencyProperty.Register("ElementSizing", typeof(double), typeof(FileBrowser), new PropertyMetadata(12d));
+
+        private FileBrowserViewModel _dataContext;
 
         /// <summary>
         /// Create new FileBrowser. 
@@ -68,6 +69,7 @@ namespace FileManager
         public FileBrowser(string currentPath)
         {
             InitializeComponent();
+            _dataContext = new FileBrowserViewModel();
             this.CurrentPath = currentPath;
         }
 
@@ -109,7 +111,7 @@ namespace FileManager
                 return;
             }
 
-            FileSystemInfoItem selectedItem = (FileSystemInfoItem) this.ListBoxItems.SelectedItem;
+            FileSystemInfoItem selectedItem = (FileSystemInfoItem)this.ListBoxItems.SelectedItem;
             if (selectedItem.IsDirectory)
             {
                 this.CurrentPath = selectedItem.FullName;

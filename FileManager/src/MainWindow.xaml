@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileManager"
         mc:Ignorable="d"
-        Title="WPF File Manager" Height="550" Width="725" Icon="/wpf_filemanager;component/icon.ico">
+        Title="WPF File Manager" Height="550" Width="725" 
+        Icon="/wpf_filemanager;component/icon.ico">
     <Window.ContextMenu>
         <ContextMenu>
             <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
-                      Click="ChangeTextSize_OnClick" />
+                      Command="{Binding DecreaseTextSizeCommand}" />
             <MenuItem x:Name="MenuItemContextIncreaseTextSize" Header="Increase text size"
-                      Click="ChangeTextSize_OnClick" />
+                      Command="{Binding IncreaseTextSizeCommand}" />
             <Separator />
             <MenuItem x:Name="MenuItemColorSwitch" Header="Switch color scheme" 
-                      Click="MenuItemColorSwitch_OnClick" />
+                      Command="{Binding SwitchColorSchemeCommand}" />
         </ContextMenu>
     </Window.ContextMenu>
     <Grid>
@@ -23,9 +24,9 @@
             <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:FileBrowser x:Name="FileBrowser1" Grid.Column="0" />
+        <local:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize, Mode=OneWay}"  Grid.Column="0" />
         <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
                       Width="3" />
-        <local:FileBrowser x:Name="FileBrowser2" Grid.Column="2" />
+        <local:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize, Mode=OneWay}" Grid.Column="2" />
     </Grid>
 </Window>
