@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileManager"
         mc:Ignorable="d"
-        Title="WPF File Manager" Height="450" Width="625">
+        Title="WPF File Manager" Height="550" Width="725" Icon="/wpf_filemanager;component/icon.ico">
     <Window.ContextMenu>
         <ContextMenu>
             <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"

@@ -22,11 +22,11 @@
             <RowDefinition Height="{Binding Height, ElementName=ButtonGoUp}" />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="0" Grid.RowSpan="2">
+        <DockPanel Grid.Column="0" Grid.RowSpan="1">
             <TextBox x:Name="TextBoxPath" DockPanel.Dock="Top"
                      materialDesign:HintAssist.Hint="Path"
                      KeyDown="TextBoxPath_KeyDown" />
-            <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True"
+            <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
                       MouseDoubleClick="ListBoxItems_OnMouseDoubleClick"
                       ItemsSource="{Binding}"
                       AutoGenerateColumns="False">
