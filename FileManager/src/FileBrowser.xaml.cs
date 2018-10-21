@@ -35,7 +35,7 @@ namespace FileManager
                 }
                 foreach (FileSystemInfo systemInfoView in fileSystemInfos)
                 {
-                    systemInfoViews.AddLast(new FileSystemInfoItem(systemInfoView));
+                    systemInfoViews.AddLast(new FilesystemItem(systemInfoView));
                 }
 
                 this.ListBoxItems.ItemsSource = systemInfoViews;
@@ -45,11 +45,7 @@ namespace FileManager
         public double ElementSizing
         {
             get { return (double)GetValue(ElementSizingProperty); }
-            set
-            {
-                SetValue(ElementSizingProperty, value);
-                _dataContext.ElementSizing = value;
-            }
+            set { SetValue(ElementSizingProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for ElementSizing.  This enables animation, styling, binding, etc...
@@ -111,7 +107,7 @@ namespace FileManager
                 return;
             }
 
-            FileSystemInfoItem selectedItem = (FileSystemInfoItem)this.ListBoxItems.SelectedItem;
+            FilesystemItem selectedItem = (FilesystemItem)this.ListBoxItems.SelectedItem;
             if (selectedItem.IsDirectory)
             {
                 this.CurrentPath = selectedItem.FullName;

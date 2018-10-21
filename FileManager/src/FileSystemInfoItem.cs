@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using MaterialDesignThemes.Wpf;
+using System.ComponentModel;
 using System.IO;
-using MaterialDesignThemes.Wpf;
 
 namespace FileManager
 {
-    public sealed class FileSystemInfoItem : BrowserItem
+    public sealed class FilesystemItem : BrowserItem
     {
         public override string Text => this._fileSystemInfoItem.Name;
 
@@ -16,18 +16,18 @@ namespace FileManager
 
         private readonly FileSystemInfo _fileSystemInfoItem;
 
-        public FileSystemInfoItem(FileSystemInfo fileSystemInfo)
+        public FilesystemItem(FileSystemInfo fileSystemInfo)
         {
             this._fileSystemInfoItem = fileSystemInfo;
             Icon = null;
 
             if (IsDirectoryMethod(fileSystemInfo))
             {
-                Icon = new PackIcon {Kind = PackIconKind.Folder};
+                Icon = new PackIcon { Kind = PackIconKind.Folder };
             }
             else
             {
-                Icon = new PackIcon {Kind = PackIconKind.File};
+                Icon = new PackIcon { Kind = PackIconKind.File };
             }
         }
 
