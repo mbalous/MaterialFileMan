@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Commands.cs" />
     <Compile Include="src\FileBrowserViewModel.cs" />
     <Compile Include="src\MainWindowViewModel.cs" />
     <Compile Include="src\ViewModelBase.cs" />
