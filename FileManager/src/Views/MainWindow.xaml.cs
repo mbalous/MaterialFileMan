@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace FileManager
+namespace FileManager.Views
 {
     /// <summary>
     /// Interaction logic for <see cref="MainWindow"/>

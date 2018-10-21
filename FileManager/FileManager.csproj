@@ -67,14 +67,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\Commands.cs" />
-    <Compile Include="src\FileBrowserViewModel.cs" />
-    <Compile Include="src\MainWindowViewModel.cs" />
-    <Compile Include="src\ViewModelBase.cs" />
-    <Page Include="src\FileBrowser.xaml">
+    <Compile Include="src\ViewModels\FileBrowserViewModel.cs" />
+    <Compile Include="src\ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="src\ViewModels\ViewModelBase.cs" />
+    <Page Include="src\UserControls\FileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\MainWindow.xaml">
+    <Page Include="src\Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -85,12 +85,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\BrowserItem.cs" />
-    <Compile Include="src\FileBrowser.xaml.cs">
+    <Compile Include="src\UserControls\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\FileSystemInfoItem.cs" />
     <Compile Include="src\GoUpItem.cs" />
-    <Compile Include="src\MainWindow.xaml.cs">
+    <Compile Include="src\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
