@@ -11,7 +11,7 @@ namespace FileManager.Views
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            this.DataContext = new ViewModels.MainWindowViewModel();
         }
     }
 }

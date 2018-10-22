@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using FileManager.Properties;
 
-namespace FileManager
+namespace FileManager.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

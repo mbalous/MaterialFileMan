@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileManager"
+        xmlns:vm="clr-namespace:FileManager.ViewModels"
         xmlns:controls="clr-namespace:FileManager.UserControls"
         mc:Ignorable="d"
         Title="WPF File Manager" Height="550" Width="725" 
         Icon="/wpf_filemanager;component/icon.ico">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.ContextMenu>
         <ContextMenu>
             <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
@@ -25,9 +29,9 @@
             <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <controls:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize, Mode=OneWay}"  Grid.Column="0" />
+        <controls:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize}"  Grid.Column="0" />
         <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
                       Width="3" />
-        <controls:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize, Mode=OneWay}" Grid.Column="2" />
+        <controls:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize}" Grid.Column="2" />
     </Grid>
 </Window>

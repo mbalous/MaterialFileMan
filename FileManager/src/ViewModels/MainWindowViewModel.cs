@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using MaterialDesignThemes.Wpf;
 
-namespace FileManager
+namespace FileManager.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -14,7 +15,7 @@ namespace FileManager
         public ActionCommand IncreaseTextSizeCommand { get; private set; }
         public ActionCommand SwitchColorSchemeCommand { get; private set; }
 
-        private double _fontSize;
+        private double _fontSize = 12;
         public double FontSize
         {
             get
@@ -30,19 +31,18 @@ namespace FileManager
 
         public MainWindowViewModel()
         {
-
             this._paletteHelper = new PaletteHelper();
-            // Default value
-            this.FontSize = 12;
 
             DecreaseTextSizeCommand = ActionCommand.Create((o) =>
             {
                 this.FontSize -= 2;
+                Debug.WriteLine($"FontSize set to {this.FontSize}");
             });
 
             IncreaseTextSizeCommand = ActionCommand.Create((o) =>
             {
                 this.FontSize += 2;
+                Debug.WriteLine($"FontSize set to {this.FontSize}");
             });
 
             SwitchColorSchemeCommand = ActionCommand.Create(SwitchColorScheme);
