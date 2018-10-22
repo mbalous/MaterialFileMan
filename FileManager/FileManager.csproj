@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\Commands.cs" />
+    <Compile Include="src\IncrementConverter.cs" />
     <Compile Include="src\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="src\ViewModels\ViewModelBase.cs" />
     <Page Include="src\UserControls\FileBrowser.xaml">

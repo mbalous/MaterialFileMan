@@ -15,6 +15,9 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:IncrementConverter x:Key="IncrementConverter"/>
+            <!--Specify the font difference between the FontSize of the text and icons.-->
+            <system:Double x:Key="IconIncrementSize">5</system:Double>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -29,17 +32,17 @@
                      KeyDown="TextBoxPath_KeyDown"  />
             <DataGrid x:Name="ListBoxItems" VerticalAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True"
                       MouseDoubleClick="ListBoxItems_OnMouseDoubleClick"
-                      ItemsSource="{Binding}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <!-- First column -->
                     <DataGridTemplateColumn CanUserResize="False" Header="Type">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="local:FileSystemInfoItem">
-                                <materialDesign:PackIcon x:Name="PackIconFileIcon" Kind="{Binding Icon.Kind}"
+                            <DataTemplate DataType="local:BrowserItem">
+                                <materialDesign:PackIcon x:Name="PackIconFileIcon" 
+                                                         Kind="{Binding Icon.Kind, Mode=OneWay}"
                                                          VerticalAlignment="Center"
-                                                         Height="{Binding FontSize, ElementName=UserControlFileManager}"
-                                                         Width="{Binding FontSize, ElementName=UserControlFileManager}" />
+                                                         Height="{Binding FontSize, ConverterParameter={StaticResource IconIncrementSize}, Converter={StaticResource IncrementConverter}, ElementName=UserControlFileManager, Mode=OneWay}"
+                                                         Width="{Binding FontSize, ConverterParameter={StaticResource IconIncrementSize}, Converter={StaticResource IncrementConverter}, ElementName=UserControlFileManager, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
