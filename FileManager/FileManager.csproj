@@ -89,7 +89,7 @@
     <Compile Include="src\UserControls\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\FilesystemInfoItem.cs" />
+    <Compile Include="src\FilesystemItem.cs" />
     <Compile Include="src\GoUpItem.cs" />
     <Compile Include="src\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
