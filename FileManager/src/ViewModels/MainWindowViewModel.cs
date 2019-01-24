@@ -50,19 +50,21 @@ namespace FileManager.ViewModels
 
         private void SwitchColorScheme(object obj)
         {
-
-            ResourceDictionary existingResourceDictionary = Application.Current.Resources.MergedDictionaries
-                .Where(rd => rd.Source != null)
-                .SingleOrDefault(rd =>
-                    Regex.Match(rd.Source.OriginalString, @"(\/MaterialDesignThemes.Wpf;component\/Themes\/MaterialDesignTheme\.)((Light)|(Dark))",
-                    RegexOptions.Compiled).Success);
+            // This code retreives the current color scheme
+            System.Collections.Generic.IEnumerable<ResourceDictionary> existingResourceDictionary = Application.Current.Resources.MergedDictionaries.Where(rd => rd.Source != null);
+            ResourceDictionary target = existingResourceDictionary.SingleOrDefault(rd =>
+                Regex.Match(rd.Source.OriginalString, @"(\/MaterialDesignThemes.Wpf;component\/Themes\/MaterialDesignTheme\.)((Light)|(Dark))",
+                RegexOptions.Compiled).Success);
 
             if (existingResourceDictionary == null)
             {
                 throw new ApplicationException($"{nameof(existingResourceDictionary)} equals null.");
             }
 
-            this._paletteHelper.SetLightDark(!existingResourceDictionary.Source.ToString().ToLower().Contains("dark"));
+            // If the current collor scheme is set to dark,
+            // then the method 'SetLightDark' will swap it for light.
+            bool isDark = target.Source.ToString().ToLower().Contains("dark");
+            this._paletteHelper.SetLightDark(!isDark);
         }
     }
 }

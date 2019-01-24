@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileManager"
         xmlns:vm="clr-namespace:FileManager.ViewModels"
-        xmlns:controls="clr-namespace:FileManager.UserControls"
+        xmlns:views="clr-namespace:FileManager.Views"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="WPF File Manager" Height="550" Width="725" 
         Icon="/wpf_filemanager;component/icon.ico">
