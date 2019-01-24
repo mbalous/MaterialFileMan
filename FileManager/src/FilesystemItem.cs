@@ -4,6 +4,11 @@ using System.IO;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Represents a file system item.
+    /// Can be either file or directory.
+    /// Execute method <see cref="IsDirectory"/> to find out.
+    /// </summary>
     public sealed class FilesystemItem : BrowserItem
     {
         public override string Text => this._fileSystemInfoItem.Name;
@@ -12,7 +17,7 @@ namespace FileManager
         public string FullName => this._fileSystemInfoItem.FullName;
 
         [Browsable(false)]
-        public bool IsDirectory => IsDirectoryMethod(this._fileSystemInfoItem);
+        public bool IsDirectory => IsDirectoryInternal(this._fileSystemInfoItem);
 
         private readonly FileSystemInfo _fileSystemInfoItem;
 
@@ -21,19 +26,44 @@ namespace FileManager
             this._fileSystemInfoItem = fileSystemInfo;
             Icon = null;
 
-            if (IsDirectoryMethod(fileSystemInfo))
+            if (IsDirectoryInternal(fileSystemInfo))
             {
                 Icon = new PackIcon { Kind = PackIconKind.Folder };
             }
             else
             {
-                Icon = new PackIcon { Kind = PackIconKind.File };
+                string extension = GetExtension(fileSystemInfo);
+                this.Icon = GetIconFromExtension(extension);
+            }
+
+            PackIcon GetIconFromExtension(string extension)
+            {
+                if (PackIconAssociations.Associations.TryGetValue(extension, out PackIcon icon))
+                {
+                    return icon;
+                }
+                else
+                {
+                    return PackIconAssociations.DefaultIcon;
+                }
             }
         }
 
-        private bool IsDirectoryMethod(FileSystemInfo fileSystemInfo)
+        private string GetExtension(FileSystemInfo fsi)
         {
-            bool result = (fileSystemInfo.Attributes & FileAttributes.Directory) != 0;
+            int lastDot = fsi.FullName.LastIndexOf('.');
+            if (lastDot == -1)
+            {
+                return string.Empty;
+            }
+
+            return fsi.FullName.Substring(lastDot);
+
+        }
+
+        private bool IsDirectoryInternal(FileSystemInfo fsi)
+        {
+            bool result = (fsi.Attributes & FileAttributes.Directory) != 0;
             return result;
         }
     }
