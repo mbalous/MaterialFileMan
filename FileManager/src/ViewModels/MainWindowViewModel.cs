@@ -9,11 +9,41 @@ namespace FileManager.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly PaletteHelper _paletteHelper;
+        #region Commands
+#pragma warning disable CS0649
 
-        public ActionCommand DecreaseTextSizeCommand { get; private set; }
-        public ActionCommand IncreaseTextSizeCommand { get; private set; }
-        public ActionCommand SwitchColorSchemeCommand { get; private set; }
+        public ActionCommand _decreaseTextSizeCommand;
+        public ActionCommand DecreaseTextSizeCommand
+        {
+            get
+            {
+                return _decreaseTextSizeCommand ?? ActionCommand.Create((o) =>
+                {
+                    this.FontSize -= 2;
+                });
+            }
+        }
+
+        private ActionCommand _increaseTextSizeCommand;
+        public ActionCommand IncreaseTextSizeCommand
+        {
+            get
+            {
+                return _increaseTextSizeCommand ?? ActionCommand.Create((o) =>
+                {
+                    this.FontSize += 2;
+                });
+            }
+        }
+
+        private ActionCommand _switchColorSchemeCommand;
+        public ActionCommand SwitchColorSchemeCommand
+        {
+            get
+            {
+                return _switchColorSchemeCommand ?? ActionCommand.Create(SwitchColorScheme);
+            }
+        }
 
         private double _fontSize = 12;
         public double FontSize
@@ -24,29 +54,20 @@ namespace FileManager.ViewModels
             }
             set
             {
-                _fontSize = value;
-                OnPropertyChanged();
+                SetAndRaise(value, ref _fontSize);
+                Debug.WriteLine($"FontSize set to {this.FontSize}");
             }
         }
+
+#pragma warning restore CS0649
+        #endregion
 
         public MainWindowViewModel()
         {
             this._paletteHelper = new PaletteHelper();
-
-            DecreaseTextSizeCommand = ActionCommand.Create((o) =>
-            {
-                this.FontSize -= 2;
-                Debug.WriteLine($"FontSize set to {this.FontSize}");
-            });
-
-            IncreaseTextSizeCommand = ActionCommand.Create((o) =>
-            {
-                this.FontSize += 2;
-                Debug.WriteLine($"FontSize set to {this.FontSize}");
-            });
-
-            SwitchColorSchemeCommand = ActionCommand.Create(SwitchColorScheme);
         }
+
+        private readonly PaletteHelper _paletteHelper;
 
         private void SwitchColorScheme(object obj)
         {

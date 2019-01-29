@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:FileManager"
         xmlns:vm="clr-namespace:FileManager.ViewModels"
         xmlns:views="clr-namespace:FileManager.Views"
+        xmlns:controls="clr-namespace:FileManager.Controls"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="WPF File Manager" Height="550" Width="725" 
@@ -13,7 +14,7 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.ContextMenu>
+    <!--<Window.ContextMenu>
         <ContextMenu>
             <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
                       Command="{Binding DecreaseTextSizeCommand}" />
@@ -23,7 +24,7 @@
             <MenuItem x:Name="MenuItemColorSwitch" Header="Switch color scheme" 
                       Command="{Binding SwitchColorSchemeCommand}" />
         </ContextMenu>
-    </Window.ContextMenu>
+    </Window.ContextMenu>-->
     <md:DialogHost x:Name="DialogHost">
         <md:DialogHost.DialogContent>
             <TextBox>DIALOG CONTENT</TextBox>
@@ -34,10 +35,10 @@
                 <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <views:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize}"  Grid.Column="0" />
+            <controls:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize}"  Grid.Column="0" />
             <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
                       Width="3" />
-            <views:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize}" Grid.Column="2" />
+            <controls:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize}" Grid.Column="2" />
         </Grid>
     </md:DialogHost>
 </local:SystemMenuWindow>

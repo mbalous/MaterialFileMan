@@ -59,5 +59,14 @@ namespace FileManager.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No application is associated with the specified file for this operation..
+        /// </summary>
+        internal static string NoFileAssociation {
+            get {
+                return ResourceManager.GetString("NoFileAssociation", resourceCulture);
+            }
+        }
     }
 }
