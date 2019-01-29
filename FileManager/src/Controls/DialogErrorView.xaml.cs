@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FileManager.Views
+namespace FileManager.Controls
 {
     /// <summary>
     /// Interaction logic for DialogErrorView.xaml
     /// </summary>
-    public partial class DialogErrorView : UserControl
+    public partial class DialogError : UserControl
     {
-        public DialogErrorView()
+        public DialogError()
         {
             InitializeComponent();
         }

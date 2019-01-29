@@ -69,16 +69,20 @@
     </ApplicationDefinition>
     <Compile Include="src\Associations.cs" />
     <Compile Include="src\Commands.cs" />
-    <Compile Include="src\FilesystemWalker.cs" />
+    <Compile Include="src\DirectoryGridItem.cs" />
+    <Compile Include="src\FileGridItem.cs" />
     <Compile Include="src\IncrementConverter.cs" />
+    <Compile Include="src\Native.cs" />
+    <Compile Include="src\SystemMenuItem.cs" />
+    <Compile Include="src\SystemMenuWindow.cs" />
     <Compile Include="src\ViewModels\DialogErrorViewModel.cs" />
     <Compile Include="src\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="src\ViewModels\ViewModelBase.cs" />
-    <Page Include="src\Views\FileBrowser.xaml">
+    <Page Include="src\Controls\FileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\Views\DialogErrorView.xaml">
+    <Page Include="src\Controls\DialogErrorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -86,19 +90,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="src\ActionCommand.cs" />
     <Compile Include="src\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\BrowserItem.cs" />
-    <Compile Include="src\Views\FileBrowser.xaml.cs">
+    <Compile Include="src\Controls\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\FilesystemItem.cs" />
     <Compile Include="src\GoUpItem.cs" />
-    <Compile Include="src\Views\DialogErrorView.xaml.cs">
+    <Compile Include="src\Controls\DialogErrorView.xaml.cs">
       <DependentUpon>DialogErrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\Views\MainWindow.xaml.cs">
@@ -139,6 +142,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="res\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileManager.Core\FileManager.Core.csproj">
+      <Project>{7994833d-be08-431e-8344-b102df9436fa}</Project>
+      <Name>FileManager.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

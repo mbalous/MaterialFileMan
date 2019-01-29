@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace FileManager.Properties
+namespace FileManager.Core.Annotations
 {
     /// <summary>
     /// Indicates that the method is contained in a type that implements

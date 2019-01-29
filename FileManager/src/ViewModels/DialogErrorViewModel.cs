@@ -14,9 +14,8 @@ namespace FileManager.ViewModels
         {
             if ((bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
             {
-                this.Message = "No application is associated with the specified file for this operation.";
+                this.Message = Properties.Resources.NoFileAssociation;
             }
-            
         }
 
         public DialogErrorViewModel(string message)
@@ -27,10 +26,7 @@ namespace FileManager.ViewModels
         public string Message
         {
             get { return _message; }
-            set
-            {
-                SetAndRaise(value, ref _message);
-            }
+            set { SetAndRaise(value, ref _message); }
         }
     }
 }
