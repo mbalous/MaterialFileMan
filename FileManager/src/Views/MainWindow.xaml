@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileManager.Views.MainWindow"
+﻿<local:SystemMenuWindow x:Class="FileManager.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -40,4 +40,4 @@
             <views:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize}" Grid.Column="2" />
         </Grid>
     </md:DialogHost>
-</Window>
+</local:SystemMenuWindow>
