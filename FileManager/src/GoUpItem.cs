@@ -2,7 +2,7 @@
 
 namespace FileManager
 {
-    internal sealed class GoUpItem : BrowserItem
+    internal sealed class GoUpItem : GridItem
     {
         public GoUpItem()
         {
