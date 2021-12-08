@@ -8,6 +8,9 @@
                            xmlns:controls="clr-namespace:FileManager.Controls"
                            xmlns:vm="clr-namespace:FileManager.ViewModels"
                            xmlns:system="clr-namespace:System;assembly=mscorlib"
+                           TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                           TextElement.FontWeight="Medium"
+                           Background="{DynamicResource MaterialDesignPaper}"
                            d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=False}"
                            mc:Ignorable="d"
                            Title="WPF File Manager" Height="550" Width="725">
@@ -15,11 +18,11 @@
     <Window.Resources>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
     </Window.Resources>
-    
+
     <Window.FontFamily>
         <StaticResource ResourceKey="MaterialDesignFont"/>
     </Window.FontFamily>
-    
+
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
