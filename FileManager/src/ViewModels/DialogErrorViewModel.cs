@@ -26,7 +26,7 @@ namespace FileManager.ViewModels
         public string Message
         {
             get { return _message; }
-            set { SetAndRaise(value, ref _message); }
+            set { SetProperty(value, ref _message); }
         }
     }
 }

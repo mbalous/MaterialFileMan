@@ -20,7 +20,7 @@ namespace FileManager.ViewModels
             }
             set
             {
-                SetAndRaise(Math.Abs(value), ref _fontSize);
+                SetProperty(Math.Abs(value), ref _fontSize);
                 Debug.WriteLine($"FontSize set to {this.FontSize}");
             }
         }

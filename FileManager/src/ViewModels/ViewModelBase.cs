@@ -28,7 +28,7 @@ namespace FileManager.ViewModels
         /// <param name="propertyName">
         /// Property name. If unused, <see cref="CallerMemberNameAttribute"/> will be used to obtain property name.
         /// </param>
-        protected virtual void SetAndRaise<T>(T value, ref T property, [CallerMemberName] string propertyName = null)
+        protected virtual void SetProperty<T>(T value, ref T property, [CallerMemberName] string propertyName = null)
         {
             if (!value.Equals(property))
             {
