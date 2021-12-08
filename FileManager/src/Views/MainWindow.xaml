@@ -4,16 +4,26 @@
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                           xmlns:system="clr-namespace:System;assembly=mscorlib"
+                           xmlns:local="clr-namespace:FileManager"
                            xmlns:controls="clr-namespace:FileManager.Controls"
-                           xmlns:vm="clr-namespace:FileManager.ViewModels" 
-                           xmlns:local="clr-namespace:FileManager" 
-                           d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+                           xmlns:vm="clr-namespace:FileManager.ViewModels"
+                           xmlns:system="clr-namespace:System;assembly=mscorlib"
+                           d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel, IsDesignTimeCreatable=False}"
                            mc:Ignorable="d"
                            Title="WPF File Manager" Height="550" Width="725">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+    </Window.Resources>
+    
+    <Window.FontFamily>
+        <StaticResource ResourceKey="MaterialDesignFont"/>
+    </Window.FontFamily>
+    
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    
     <controls:SystemMenuWindow.MenuItems>
         <local:SystemMenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size" Command="{Binding ChangeTextSizeCommand}">
             <local:SystemMenuItem.CommandParameter>
@@ -30,12 +40,21 @@
 
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Decrease text size" Command="{Binding DecreaseTextSizeCommand}" />
-            <MenuItem Header="Increase text size" Command="{Binding IncreaseTextSizeCommand}" />
+            <MenuItem Header="Decrease text size" Command="{Binding ChangeTextSizeCommand}" >
+                <MenuItem.CommandParameter>
+                    <system:Int32>-2</system:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
+            <MenuItem Header="Increase text size" Command="{Binding ChangeTextSizeCommand}" >
+                <MenuItem.CommandParameter>
+                    <system:Int32>2</system:Int32>
+                </MenuItem.CommandParameter>
+            </MenuItem>
             <Separator />
             <MenuItem Header="Switch color scheme" Command="{Binding SwitchColorSchemeCommand}" />
         </ContextMenu>
     </Window.ContextMenu>
+    
     <md:DialogHost x:Name="DialogHost">
         <md:DialogHost.DialogContent>
             <TextBox>DIALOG CONTENT</TextBox>
@@ -43,12 +62,11 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="{Binding Width, ElementName=GridSplitter}" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <controls:FileBrowser x:Name="FileBrowser1" ElementSizing="{Binding FontSize}"  Grid.Column="0" />
-            <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1"
-                      Width="3" />
+            <GridSplitter x:Name="GridSplitter" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1" Width="3" />
             <controls:FileBrowser x:Name="FileBrowser2" ElementSizing="{Binding FontSize}" Grid.Column="2" />
         </Grid>
     </md:DialogHost>
