@@ -6,7 +6,7 @@ namespace FileManager.ViewModels
     /// <summary>
     /// ViewModel for <see cref="Views.DialogErrorView"/>
     /// </summary>
-    class DialogErrorViewModel : ViewModelBase
+    class DialogErrorViewModel : BindableBase
     {
         private string _message;
 

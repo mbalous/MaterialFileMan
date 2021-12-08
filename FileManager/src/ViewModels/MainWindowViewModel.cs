@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace FileManager.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : BindableBase
     {
         #region Commands
 

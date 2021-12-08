@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace FileManager.ViewModels
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class BindableBase : INotifyPropertyChanged
     {
-        protected ViewModelBase()
+        protected BindableBase()
         {
         }
 
