@@ -39,8 +39,8 @@ namespace FileManager.Controls
 
         private unsafe void SystemMenuWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var interopHelper = new WindowInteropHelper(this);
-            this.systemMenu = PInvoke.GetSystemMenu_SafeHandle((Windows.Win32.Foundation.HWND)interopHelper.Handle, false);
+            IntPtr hWnd = new WindowInteropHelper(this).EnsureHandle();
+            this.systemMenu = PInvoke.GetSystemMenu_SafeHandle((Windows.Win32.Foundation.HWND)hWnd, false);
 
             if (this.MenuItems.Count > 0)
             {
@@ -62,7 +62,7 @@ namespace FileManager.Controls
                     item.Header);
             }
 
-            HwndSource hwndSource = HwndSource.FromHwnd(interopHelper.Handle);
+            HwndSource hwndSource = HwndSource.FromHwnd(hWnd);
             hwndSource.AddHook(this.WndProc);
         }
 
