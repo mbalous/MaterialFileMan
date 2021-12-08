@@ -23,7 +23,7 @@ namespace FileManager.Core.Tests
             string fullname = CreateFileInDirectoryInternal(fileName, this._testDirectory);
 
             DirectoryController dc = new DirectoryController(_testDirectory.FullName, false);
-            FileSystemInfo[] childItems = dc.ChildItems;
+            FileSystemInfo[] childItems = dc.GetChildItems();
             Assert.Equal(fullname, childItems[0].FullName);
         }
 
@@ -35,7 +35,7 @@ namespace FileManager.Core.Tests
 
             DirectoryController dc = new DirectoryController(_testDirectory.FullName, false);
             dc.DeleteChildItem(fileName);
-            FileSystemInfo[] childItems = dc.ChildItems;
+            FileSystemInfo[] childItems = dc.GetChildItems();
             Assert.DoesNotContain(childItems, x => x.FullName == fullname);
 
         }
