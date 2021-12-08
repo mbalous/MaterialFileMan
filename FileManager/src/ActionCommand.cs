@@ -1,7 +1,5 @@
-﻿using FileManager.Core.Annotations;
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace FileManager
@@ -35,7 +33,7 @@ namespace FileManager
         }
     }
 
-    public class ActionCommand : ICommand, INotifyPropertyChanged
+    public class ActionCommand : BindableBase, ICommand, INotifyPropertyChanged
     {
         protected Predicate<object> _canExecute;
         protected Action<object> _execute;
@@ -80,14 +78,6 @@ namespace FileManager
         public static ActionCommand Create(Action<object> action)
         {
             return new ActionCommand(action);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

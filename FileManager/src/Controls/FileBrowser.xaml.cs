@@ -47,7 +47,7 @@ namespace FileManager.Controls
                 this._fileSystemWrapper.Dispose();
             };
 
-            InitializeComponent();   
+            InitializeComponent();
 
             GetAndSetItems();
 
@@ -58,9 +58,11 @@ namespace FileManager.Controls
 
             this._fileSystemWrapper.ChildItemsChanged += (sender, e) =>
             {
-                if (e.ChangeType == WatcherChangeTypes.Created || e.ChangeType == WatcherChangeTypes.Deleted)
+                if (e.ChangeType == WatcherChangeTypes.Created ||
+                    e.ChangeType == WatcherChangeTypes.Deleted ||
+                    e.ChangeType == WatcherChangeTypes.Renamed)
                 {
-                    Application.Current.Dispatcher.Invoke(() => GetAndSetItems());
+                    GetAndSetItems();
                 }
             };
         }
@@ -71,11 +73,7 @@ namespace FileManager.Controls
             string newValue = ((TextBox)e.EditingElement).Text;
             if (e.EditingElement.DataContext is FileSystemGridItem fsi)
             {
-                // Only invoke rename if the new value is different to the old one
-                if (fsi.Text != newValue)
-                {
-                    this._fileSystemWrapper.RenameChildItem(fsi.Text, newValue);
-                }
+                this._fileSystemWrapper.RenameChildItem(fsi.FullPath, newValue);
             }
             else
             {
@@ -83,43 +81,42 @@ namespace FileManager.Controls
             }
         }
 
-        private void GetAndSetItems()
+        private async void GetAndSetItems()
         {
-            List<GridItem> browserItems = new List<GridItem>();
+            FileSystemInfo[] childItems = _fileSystemWrapper.GetChildItems();
+                   
+            if (this.Dispatcher.CheckAccess())
+                await this.Dispatcher.InvokeAsync(GenerateAndSet);
+            else
+                GenerateAndSet();
+
+            void GenerateAndSet()
+            {
+                var items = GetItems(childItems);
+                this.DataGridItems.ItemsSource = items;
+                this.TextBoxPath.Text = this._fileSystemWrapper.CurrentPath;
+            }
+        }
+
+        private IReadOnlyList<GridItem> GetItems(FileSystemInfo[] fileSystemInfos)
+        {
+            List<GridItem> browserItems = new List<GridItem>(fileSystemInfos.Length + 1);
+
             if (_fileSystemWrapper.CanTraverseUpwards)
-            {
                 browserItems.Add(new GoUpItem());
-            }
-
-            FileSystemInfo[] childItems = _fileSystemWrapper.ChildItems;
-            foreach (FileSystemInfo item in childItems)
+            
+            foreach (FileSystemInfo item in fileSystemInfos)
             {
-                if (IsDirectoryInternal(item))
-                {
-                    browserItems.Add(new DirectoryGridItem(item.Name));
-                }
-                else
-                {
-                    browserItems.Add(new FileGridItem(item.Name));
-                }
+                browserItems.Add(FileSystemGridItem.Create(item));
             }
 
-            this.DataGridItems.ItemsSource = browserItems;
-            this.TextBoxPath.Text = this._fileSystemWrapper.CurrentPath;
-
-            bool IsDirectoryInternal(FileSystemInfo fsi)
-            {
-                bool result = (fsi.Attributes & FileAttributes.Directory) != 0;
-                return result;
-            }
+            return browserItems;
         }
 
         private void ButtonGoUp_Click(object sender, RoutedEventArgs e)
         {
             if (this._fileSystemWrapper.CanTraverseUpwards)
-            {
                 this._fileSystemWrapper.TraverseUpwards();
-            }
         }
 
         private void DataGrid_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -140,11 +137,18 @@ namespace FileManager.Controls
             }
             else if (this.DataGridItems.SelectedItem is DirectoryGridItem directory)
             {
-                this._fileSystemWrapper.EnterChildDirectory(directory.Text);
+                try
+                {
+                    this._fileSystemWrapper.EnterChildDirectory(directory.FullPath);
+                }
+                catch (Exception ex)
+                {
+                    ShowException(ex);
+                }
             }
             else if (this.DataGridItems.SelectedItem is FileGridItem file)
             {
-                ProcessStartInfo pci = new ProcessStartInfo(file.Text)
+                ProcessStartInfo pci = new ProcessStartInfo(file.FullPath)
                 {
                     UseShellExecute = true,
                 };
@@ -152,23 +156,28 @@ namespace FileManager.Controls
                 {
                     using (var process = Process.Start(pci)) { }
                 }
-                catch (Win32Exception ex) // Win32Exception is thrown when trying to launch .dll for example
+                catch (Win32Exception ex)
                 {
-                    DialogError view = new DialogError()
-                    {
-                        DataContext = new DialogErrorViewModel()
-                        {
-                            Message = ex.Message
-                        }
-                    };
-                    DialogHost.Show(view);
+                    // Win32Exception is thrown when trying to launch .dll for example
+                    ShowException(ex);
                 }
-
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    ShowException(ex);
                 }
             }
+        }
+
+        private static async void ShowException(Exception ex)
+        {
+            DialogError view = new DialogError()
+            {
+                DataContext = new DialogErrorViewModel()
+                {
+                    Message = ex.Message,
+                }
+            };
+            await DialogHost.Show(view);
         }
 
         private void TextBoxPath_KeyDown(object sender, KeyEventArgs e)
@@ -211,7 +220,7 @@ namespace FileManager.Controls
             DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
             if (targetCell.Item is FileSystemGridItem fsi)
             {
-                this._fileSystemWrapper.DeleteChildItem(fsi.Text);
+                this._fileSystemWrapper.DeleteChildItem(fsi.FullPath);
             }
         }
 

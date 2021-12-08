@@ -1,37 +1,22 @@
-﻿using FileManager.Core.Annotations;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
+using System.IO;
 
 namespace FileManager
 {
     public class FileGridItem : FileSystemGridItem
     {
-        public FileGridItem([NotNull] string fileName) : base(fileName)
+        public FileGridItem(string fileName, string fullPath) : base(fileName, fullPath)
         {
-            string extension = GetExtension(fileName);
+            string extension = Path.GetExtension(fileName);
             this.Icon = GetIconFromExtension(extension);
-        }
-
-        private string GetExtension(string fileName)
-        {
-            int lastDot = fileName.LastIndexOf('.');
-            if (lastDot == -1)
-            {
-                return string.Empty;
-            }
-
-            return fileName.Substring(lastDot);
         }
 
         private PackIcon GetIconFromExtension(string extension)
         {
             if (PackIconAssociations.Associations.TryGetValue(extension, out PackIcon icon))
-            {
                 return icon;
-            }
             else
-            {
                 return PackIconAssociations.DefaultIcon;
-            }
         }
     }
 }

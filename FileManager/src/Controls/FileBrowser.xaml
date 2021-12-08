@@ -36,14 +36,14 @@
 
             <TextBox x:Name="TextBoxPath" DockPanel.Dock="Top"
                      materialDesign:HintAssist.Hint="Path" 
-                     FontFamily="{DynamicResource MaterialDesignFont}"
+                     FontFamily="{DynamicResource MaterialDesignFont}"                     
+                     Style="{StaticResource MaterialDesignFilledTextBox}"
                      KeyDown="TextBoxPath_KeyDown"/>
 
             <DataGrid x:Name="DataGridItems" VerticalAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow" 
                       MouseDoubleClick="DataGrid_OnMouseDoubleClick"
                       CellEditEnding="DataGridItems_CellEditEnding"
                       AutoGenerateColumns="False">
-
 
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
@@ -80,6 +80,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
+        
         <Button x:Name="ButtonGoUp" Grid.Column="0" Content="Go up" Click="ButtonGoUp_Click" Grid.Row="1" FontFamily="{DynamicResource MaterialDesignFont}" />
     </Grid>
 </UserControl>

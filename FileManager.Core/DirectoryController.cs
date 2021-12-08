@@ -1,6 +1,6 @@
-﻿using FileManager.Core.Annotations;
-using System;
+﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace FileManager.Core
@@ -65,19 +65,18 @@ namespace FileManager.Core
             this.SetCurrentDirectory(newDirectory);
         }
 
-        public void RenameChildItem([NotNull] string oldName, [NotNull] string newName)
+        public void RenameChildItem([NotNull] string oldPath, [NotNull] string newName)
         {
-            string fullSourcePath = Path.Combine(this._currentDirectoryInfo.FullName, oldName);
-
-            if (!File.Exists(fullSourcePath))
-            {
-                throw new ArgumentException($"File at \"{fullSourcePath}\" does not exist.", nameof(oldName));
-            }
+            if (!File.Exists(oldPath))
+                throw new ArgumentException($"File at \"{oldPath}\" does not exist.", nameof(oldPath));
 
             string fullTargetPath = Path.Combine(this._currentDirectoryInfo.FullName, newName);
 
-            File.Move(fullSourcePath, fullTargetPath);
-            Debug.WriteLine($"Renamed \"{fullSourcePath}\" to \"{fullTargetPath}\".");
+            if (oldPath == fullTargetPath)
+                return;
+
+            File.Move(oldPath, fullTargetPath);
+            Debug.WriteLine($"Renamed \"{oldPath}\" to \"{fullTargetPath}\".");
         }
 
         public void DeleteChildItem([NotNull] string name)
@@ -105,7 +104,10 @@ namespace FileManager.Core
 
         public event EventHandler<FileSystemEventArgs> ChildItemsChanged;
 
-        public FileSystemInfo[] ChildItems => _currentDirectoryInfo.GetFileSystemInfos();
+        public FileSystemInfo[] GetChildItems()
+        {
+            return _currentDirectoryInfo.GetFileSystemInfos("*", this._enumerationOptions);
+        }
 
         /// <summary>
         /// Initializes new instance with <see cref="Directory.GetCurrentDirectory"/>.
@@ -139,6 +141,8 @@ namespace FileManager.Core
         }
 
         #endregion
+
+        private readonly EnumerationOptions _enumerationOptions = new EnumerationOptions() { ReturnSpecialDirectories = false };
 
         private DirectoryInfo _currentDirectoryInfo;
 
