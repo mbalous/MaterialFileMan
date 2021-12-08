@@ -9,8 +9,7 @@
         xmlns:controls="clr-namespace:FileManager.Controls"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="WPF File Manager" Height="550" Width="725" 
-        Icon="/wpf_filemanager;component/icon.ico">
+        Title="WPF File Manager" Height="550" Width="725">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>

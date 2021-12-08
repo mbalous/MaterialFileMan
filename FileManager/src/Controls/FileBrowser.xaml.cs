@@ -35,7 +35,7 @@ namespace FileManager.Controls
         /// Current directory is going to be used upon start.
         /// </summary>
         public FileBrowser() : this(Directory.GetCurrentDirectory())
-        {
+        {            
         }
 
         public FileBrowser(string currentPath)
@@ -75,12 +75,12 @@ namespace FileManager.Controls
                 if (fsi.Text != newValue)
                 {
                     this._fileSystemWrapper.RenameChildItem(fsi.Text, newValue);
-                }
+                }        
                 
             }
             else
             {
-                throw new ApplicationException("CAN NOT EDIT NON FILE SYSTEM ITEM");
+                //throw new ApplicationException("CAN NOT EDIT NON FILE SYSTEM ITEM");
             }
         }
 
@@ -167,7 +167,7 @@ namespace FileManager.Controls
 
                 catch (Exception ex)
                 {
-
+                    
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace FileManager.Controls
         private void DataGridMenuItemRename(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDataGridTextColumn>(e);
+            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
             if (targetCell.Item is FileSystemGridItem fsi)
             {
                 this.DataGridItems.CurrentCell = targetCell;
@@ -207,9 +207,9 @@ namespace FileManager.Controls
         }
 
         private void DataGridMenuItemDelete(object sender, RoutedEventArgs e)
-        {
+        {            
             e.Handled = true;
-            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDataGridTextColumn>(e);
+            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
             if (targetCell.Item is FileSystemGridItem fsi)
             {
                 this._fileSystemWrapper.DeleteChildItem(fsi.Text);

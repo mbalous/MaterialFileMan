@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:FileManager"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:materialDesignWpf="clr-namespace:MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:Views="clr-namespace:FileManager.Views"
              x:Name="UserControlFileManager"
@@ -39,12 +38,14 @@
             <DataGrid x:Name="DataGridItems" VerticalAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow" 
                       MouseDoubleClick="DataGrid_OnMouseDoubleClick"
                       AutoGenerateColumns="False">
-                <DataGrid.RowStyle >
+                
+                <DataGrid.RowStyle>                    
                     <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
                         <Setter Property="ContextMenu" Value="{StaticResource RowMenu}"/>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
+                    
                     <!-- First column -->
                     <DataGridTemplateColumn CanUserResize="False" Header="Type" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -57,16 +58,18 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    
                     <!-- Second column -->
-                    <materialDesign:MaterialDataGridTextColumn Header="Name" Binding="{Binding Text, Mode=TwoWay}" 
+                    <materialDesign:DataGridTextColumn Header="Name" Binding="{Binding Text, Mode=TwoWay}" 
                                                                MaxLength="255"
-                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
-                        <materialDesign:MaterialDataGridTextColumn.ElementStyle >
+                                                               EditingElementStyle="{DynamicResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                        <materialDesign:DataGridTextColumn.ElementStyle >
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="{Binding FontSize, ElementName=UserControlFileManager}"/>
                             </Style>
-                        </materialDesign:MaterialDataGridTextColumn.ElementStyle>
-                    </materialDesign:MaterialDataGridTextColumn>
+                        </materialDesign:DataGridTextColumn.ElementStyle>
+                    </materialDesign:DataGridTextColumn>
+                    
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

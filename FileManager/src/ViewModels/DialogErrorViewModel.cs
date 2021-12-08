@@ -14,7 +14,7 @@ namespace FileManager.ViewModels
         {
             if ((bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue))
             {
-                this.Message = Properties.Resources.NoFileAssociation;
+                this.Message = "No application is associated with the specified file for this operation.";
             }
         }
 

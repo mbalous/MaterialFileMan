@@ -85,7 +85,8 @@ namespace FileManager.ViewModels
             // If the current collor scheme is set to dark,
             // then the method 'SetLightDark' will swap it for light.
             bool isDark = target.Source.ToString().ToLower().Contains("dark");
-            this._paletteHelper.SetLightDark(!isDark);
+            var theme = this._paletteHelper.GetTheme();
+            //this._paletteHelper.SetLightDark(!isDark);            
         }
     }
 }

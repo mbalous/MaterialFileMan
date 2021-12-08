@@ -19,7 +19,7 @@ namespace FileManager
                 { ".png", new PackIcon() {Kind = PackIconKind.Image } },
                 { ".doc", new PackIcon() {Kind = PackIconKind.FileWord } },
                 { ".docx", new PackIcon() {Kind = PackIconKind.FileWord } },
-                { ".pdf", new PackIcon() {Kind = PackIconKind.FilePdf } },
+                { ".pdf", new PackIcon() {Kind = PackIconKind.FilePdfBox } },
                 { ".txt", new PackIcon() {Kind = PackIconKind.FileDocumentBox } },
                 { ".rar", new PackIcon() {Kind = PackIconKind.ZipBox } },
                 { ".7z", new PackIcon() {Kind = PackIconKind.ZipBox } },
