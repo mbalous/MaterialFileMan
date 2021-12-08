@@ -14,8 +14,10 @@
         <ResourceDictionary>
             <local:IncrementConverter x:Key="IncrementConverter"/>
             <!--Specify the font difference between the FontSize of the text and icons.-->
-            <system:Double x:Key="IconIncrementSize">5</system:Double>
-            <ContextMenu x:Key="RowMenu" >
+            <system:Double x:Key="IconIncrementSize">10</system:Double>
+
+            <ContextMenu x:Key="RowContextMenu">
+                <MenuItem Header="Delete" Click="DataGridMenuItemDelete" />
                 <MenuItem Header="Rename" Click="DataGridMenuItemRename" />
                 <MenuItem Header="Delete" Click="DataGridMenuItemDelete" />
             </ContextMenu>
@@ -47,9 +49,14 @@
 
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                        <Setter Property="ContextMenu" Value="{StaticResource RowMenu}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditable}" Value="True">
+                                <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
+
                 <DataGrid.Columns>
 
                     <!-- First column -->
@@ -66,21 +73,34 @@
                     </DataGridTemplateColumn>
 
                     <!-- Second column -->
-                    <materialDesign:DataGridTextColumn Header="Name" Binding="{Binding Text, Mode=TwoWay}" 
-                                                               MaxLength="255"
-                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
+                    <materialDesign:DataGridTextColumn Header="Name" 
+                                                       Binding="{Binding Text, Mode=TwoWay}" 
+                                                       MaxLength="255">
                         <materialDesign:DataGridTextColumn.ElementStyle >
-                            <Style TargetType="TextBlock">
+                            <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="FontSize" Value="{Binding FontSize, ElementName=UserControlFileManager}"/>
                                 <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}" />
                             </Style>
                         </materialDesign:DataGridTextColumn.ElementStyle>
+
+                        <materialDesign:DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditable}" Value="False">
+                                        <Setter Property="IsReadOnly" Value="True" />
+                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="IsTabStop" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+
+                            </Style>
+                        </materialDesign:DataGridTextColumn.EditingElementStyle>
                     </materialDesign:DataGridTextColumn>
 
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        
+
         <Button x:Name="ButtonGoUp" Grid.Column="0" Content="Go up" Click="ButtonGoUp_Click" Grid.Row="1" FontFamily="{DynamicResource MaterialDesignFont}" />
     </Grid>
 </UserControl>

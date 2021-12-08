@@ -17,11 +17,9 @@ namespace FileManager
             {
                 return new DirectoryItem(fileSystemInfo.Name, fileSystemInfo.FullName);
             }
-            else
-            {
-                return new FileItem(fileSystemInfo.Name, fileSystemInfo.FullName);
-            }
         }
+
+        public override bool IsEditable => true;
 
         private static bool IsDirectory(FileSystemInfo fsi)
         {

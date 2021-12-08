@@ -14,6 +14,8 @@ namespace FileManager
             set => SetProperty(value, ref _text);
         }
 
+        public abstract bool IsEditable { get; }
+
         protected GridItem()
         {
         }
