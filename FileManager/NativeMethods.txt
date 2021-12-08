@@ -1,8 +1,5 @@
 ﻿GetSystemMenu
 InsertMenuW
 EnableMenuItem
-GetWindow
-DefWindowProc
-WM_COMMAND
 WM_SYSCOMMAND
 WM_INITMENUPOPUP
