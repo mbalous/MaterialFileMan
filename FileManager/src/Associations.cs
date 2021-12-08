@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 
 namespace FileManager
@@ -10,7 +11,7 @@ namespace FileManager
 
         static PackIconAssociations()
         {
-            Associations = new Dictionary<string, PackIcon>()
+            Associations = new Dictionary<string, PackIcon>(StringComparer.OrdinalIgnoreCase)
             {
                 { ".exe", new PackIcon() {Kind = PackIconKind.Application } },
                 { ".dll", new PackIcon() {Kind = PackIconKind.FileCog } },
