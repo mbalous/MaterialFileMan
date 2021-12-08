@@ -4,24 +4,38 @@
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:system="clr-namespace:System;assembly=mscorlib"
                            xmlns:controls="clr-namespace:FileManager.Controls"
-                           xmlns:vm="clr-namespace:FileManager.ViewModels"
+                           xmlns:vm="clr-namespace:FileManager.ViewModels" 
+                           xmlns:local="clr-namespace:FileManager" 
+                           d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
                            mc:Ignorable="d"
-        Title="WPF File Manager" Height="550" Width="725">
+                           Title="WPF File Manager" Height="550" Width="725">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <!--<Window.ContextMenu>
+    <controls:SystemMenuWindow.MenuItems>
+        <local:SystemMenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size" Command="{Binding ChangeTextSizeCommand}">
+            <local:SystemMenuItem.CommandParameter>
+                <system:Int32>-2</system:Int32>
+            </local:SystemMenuItem.CommandParameter>
+        </local:SystemMenuItem>
+        <local:SystemMenuItem x:Name="MenuItemContextIncreaseTextSize" Header="Increase text size" Command="{Binding ChangeTextSizeCommand}">
+            <local:SystemMenuItem.CommandParameter>
+                <system:Int32>2</system:Int32>
+            </local:SystemMenuItem.CommandParameter>
+        </local:SystemMenuItem>
+        <local:SystemMenuItem x:Name="MenuItemColorSwitch" Header="Switch color scheme" Command="{Binding SwitchColorSchemeCommand}"  />
+    </controls:SystemMenuWindow.MenuItems>
+
+    <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem x:Name="MenuItemContextDecreaseTextSize" Header="Decrease text size"
-                      Command="{Binding DecreaseTextSizeCommand}" />
-            <MenuItem x:Name="MenuItemContextIncreaseTextSize" Header="Increase text size"
-                      Command="{Binding IncreaseTextSizeCommand}" />
+            <MenuItem Header="Decrease text size" Command="{Binding DecreaseTextSizeCommand}" />
+            <MenuItem Header="Increase text size" Command="{Binding IncreaseTextSizeCommand}" />
             <Separator />
-            <MenuItem x:Name="MenuItemColorSwitch" Header="Switch color scheme" 
-                      Command="{Binding SwitchColorSchemeCommand}" />
+            <MenuItem Header="Switch color scheme" Command="{Binding SwitchColorSchemeCommand}" />
         </ContextMenu>
-    </Window.ContextMenu>-->
+    </Window.ContextMenu>
     <md:DialogHost x:Name="DialogHost">
         <md:DialogHost.DialogContent>
             <TextBox>DIALOG CONTENT</TextBox>
