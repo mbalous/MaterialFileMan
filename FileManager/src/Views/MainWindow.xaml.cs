@@ -1,6 +1,4 @@
 ﻿using FileManager.Controls;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace FileManager.Views
 {
@@ -12,7 +10,6 @@ namespace FileManager.Views
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ViewModels.MainWindowViewModel();
         }
     }
 }
