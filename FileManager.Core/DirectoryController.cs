@@ -67,38 +67,35 @@ namespace FileManager.Core
 
         public void RenameChildItem([NotNull] string oldPath, [NotNull] string newName)
         {
-            if (!File.Exists(oldPath))
-                throw new ArgumentException($"File at \"{oldPath}\" does not exist.", nameof(oldPath));
+            bool isFile;
+            if (!(isFile = File.Exists(oldPath)) && !Directory.Exists(oldPath))
+                throw new ArgumentException($"\"{oldPath}\" does not exist.", nameof(oldPath));
 
             string fullTargetPath = Path.Combine(this._currentDirectoryInfo.FullName, newName);
 
             if (oldPath == fullTargetPath)
                 return;
 
-            File.Move(oldPath, fullTargetPath);
+            if (isFile)
+                File.Move(oldPath, fullTargetPath);
+            else
+                Directory.Move(oldPath, fullTargetPath);
+
             Debug.WriteLine($"Renamed \"{oldPath}\" to \"{fullTargetPath}\".");
         }
 
-        public void DeleteChildItem([NotNull] string name)
+        public void DeleteChildItem([NotNull] string fullPath)
         {
-            string fullPath = Path.Combine(this.CurrentPath, name);
             if (File.Exists(fullPath))
             {
-                try
-                {
-                    File.Delete(fullPath);
-                    Debug.WriteLine($"Deleted file \"{fullPath}\".");
-                }
-                catch (Exception ex)
-                {
-
-                }
+                File.Delete(fullPath);
+                Debug.WriteLine($"Deleted file \"{fullPath}\".");
             }
 
             if (Directory.Exists(fullPath))
             {
-                // Recursively delete a folder
-                throw new NotImplementedException();
+                Directory.Delete(fullPath, true);
+                Debug.WriteLine($"Deleted directory \"{fullPath}\".");
             }
         }
 
