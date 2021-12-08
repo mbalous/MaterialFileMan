@@ -2,24 +2,24 @@
 
 namespace FileManager
 {
-    public abstract class FileSystemGridItem : GridItem
+    public abstract class FileSystemItem : GridItem
     {
         public string FullPath { get; }
 
-        protected FileSystemGridItem(string name, string fullPath) : base(name)
+        protected FileSystemItem(string name, string fullPath) : base(name)
         {
             this.FullPath = fullPath;
         }
 
-        public static FileSystemGridItem Create(FileSystemInfo fileSystemInfo)
+        public static FileSystemItem Create(FileSystemInfo fileSystemInfo)
         {
             if (IsDirectory(fileSystemInfo))
             {
-                return new DirectoryGridItem(fileSystemInfo.Name, fileSystemInfo.FullName);
+                return new DirectoryItem(fileSystemInfo.Name, fileSystemInfo.FullName);
             }
             else
             {
-                return new FileGridItem(fileSystemInfo.Name, fileSystemInfo.FullName);
+                return new FileItem(fileSystemInfo.Name, fileSystemInfo.FullName);
             }
         }
 

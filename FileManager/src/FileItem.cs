@@ -3,9 +3,9 @@ using System.IO;
 
 namespace FileManager
 {
-    public class FileGridItem : FileSystemGridItem
+    public class FileItem : FileSystemItem
     {
-        public FileGridItem(string fileName, string fullPath) : base(fileName, fullPath)
+        public FileItem(string fileName, string fullPath) : base(fileName, fullPath)
         {
             string extension = Path.GetExtension(fileName);
             this.Icon = GetIconFromExtension(extension);

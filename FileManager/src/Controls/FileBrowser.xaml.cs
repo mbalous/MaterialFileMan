@@ -71,7 +71,7 @@ namespace FileManager.Controls
         {
             if (e.EditAction != DataGridEditAction.Commit) { return; }
             string newValue = ((TextBox)e.EditingElement).Text;
-            if (e.EditingElement.DataContext is FileSystemGridItem fsi)
+            if (e.EditingElement.DataContext is FileSystemItem fsi)
             {
                 this._fileSystemWrapper.RenameChildItem(fsi.FullPath, newValue);
             }
@@ -107,7 +107,7 @@ namespace FileManager.Controls
             
             foreach (FileSystemInfo item in fileSystemInfos)
             {
-                browserItems.Add(FileSystemGridItem.Create(item));
+                browserItems.Add(FileSystemItem.Create(item));
             }
 
             return browserItems;
@@ -135,7 +135,7 @@ namespace FileManager.Controls
                 }
                 return;
             }
-            else if (this.DataGridItems.SelectedItem is DirectoryGridItem directory)
+            else if (this.DataGridItems.SelectedItem is DirectoryItem directory)
             {
                 try
                 {
@@ -146,7 +146,7 @@ namespace FileManager.Controls
                     ShowException(ex);
                 }
             }
-            else if (this.DataGridItems.SelectedItem is FileGridItem file)
+            else if (this.DataGridItems.SelectedItem is FileItem file)
             {
                 ProcessStartInfo pci = new ProcessStartInfo(file.FullPath)
                 {
@@ -207,7 +207,7 @@ namespace FileManager.Controls
         {
             e.Handled = true;
             DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
-            if (targetCell.Item is FileSystemGridItem fsi)
+            if (targetCell.Item is FileSystemItem fsi)
             {
                 this.DataGridItems.CurrentCell = targetCell;
                 this.DataGridItems.BeginEdit();
@@ -218,7 +218,7 @@ namespace FileManager.Controls
         {
             e.Handled = true;
             DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
-            if (targetCell.Item is FileSystemGridItem fsi)
+            if (targetCell.Item is FileSystemItem fsi)
             {
                 this._fileSystemWrapper.DeleteChildItem(fsi.FullPath);
             }

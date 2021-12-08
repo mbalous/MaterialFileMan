@@ -2,9 +2,9 @@
 
 namespace FileManager
 {
-    public class DirectoryGridItem : FileSystemGridItem
+    public class DirectoryItem : FileSystemItem
     {
-        public DirectoryGridItem(string directoryName, string fullPath) : base(directoryName, fullPath)
+        public DirectoryItem(string directoryName, string fullPath) : base(directoryName, fullPath)
         {
             this.Icon = new PackIcon { Kind = PackIconKind.Folder };
         }
