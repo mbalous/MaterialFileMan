@@ -9,13 +9,10 @@
              xmlns:Views="clr-namespace:FileManager.Views"
              x:Name="UserControlFileManager"
              mc:Ignorable="d"
+             
              d:DesignHeight="300" d:DesignWidth="300" FontSize="{Binding ElementSizing, RelativeSource={RelativeSource Self}}" >
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
-            </ResourceDictionary.MergedDictionaries>-->
             <local:IncrementConverter x:Key="IncrementConverter"/>
             <!--Specify the font difference between the FontSize of the text and icons.-->
             <system:Double x:Key="IconIncrementSize">5</system:Double>
@@ -25,31 +22,42 @@
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="{Binding Height, ElementName=ButtonGoUp}" />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Column="0" Grid.RowSpan="1">
+
             <TextBox x:Name="TextBoxPath" DockPanel.Dock="Top"
-                     materialDesign:HintAssist.Hint="Path"                     
-                     KeyDown="TextBoxPath_KeyDown"  />
+                     materialDesign:HintAssist.Hint="Path"   
+                     FlowDirection="RightToLeft"
+                     FontFamily="{DynamicResource MaterialDesignFont}"
+                     KeyDown="TextBoxPath_KeyDown"/>
+
             <DataGrid x:Name="DataGridItems" VerticalAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow" 
                       MouseDoubleClick="DataGrid_OnMouseDoubleClick"
+                      CellEditEnding="DataGridItems_CellEditEnding"
                       AutoGenerateColumns="False">
-                
-                <DataGrid.RowStyle>                    
+
+
+                <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
                         <Setter Property="ContextMenu" Value="{StaticResource RowMenu}"/>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    
+
                     <!-- First column -->
                     <DataGridTemplateColumn CanUserResize="False" Header="Type" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="local:BrowserItem">
+                            <DataTemplate DataType="{x:Type local:GridItem}">
                                 <materialDesign:PackIcon x:Name="PackIconFileIcon" 
                                                          Kind="{Binding Icon.Kind, Mode=OneWay}"
                                                          VerticalAlignment="Center"
@@ -58,21 +66,22 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    
+
                     <!-- Second column -->
                     <materialDesign:DataGridTextColumn Header="Name" Binding="{Binding Text, Mode=TwoWay}" 
                                                                MaxLength="255"
-                                                               EditingElementStyle="{DynamicResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                         <materialDesign:DataGridTextColumn.ElementStyle >
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="{Binding FontSize, ElementName=UserControlFileManager}"/>
+                                <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}" />
                             </Style>
                         </materialDesign:DataGridTextColumn.ElementStyle>
                     </materialDesign:DataGridTextColumn>
-                    
+
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <Button x:Name="ButtonGoUp" Grid.Column="0" Content="Go up" Click="ButtonGoUp_Click" Grid.Row="1" />
+        <Button x:Name="ButtonGoUp" Grid.Column="0" Content="Go up" Click="ButtonGoUp_Click" Grid.Row="1" FontFamily="{DynamicResource MaterialDesignFont}" />
     </Grid>
 </UserControl>
