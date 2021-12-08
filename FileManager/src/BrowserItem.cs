@@ -1,11 +1,8 @@
-﻿using FileManager.Core.Annotations;
-using MaterialDesignThemes.Wpf;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using MaterialDesignThemes.Wpf;
 
 namespace FileManager
 {
-    public abstract class GridItem : INotifyPropertyChanged
+    public abstract class GridItem : BindableBase
     {
         private string _text;
 
@@ -13,34 +10,17 @@ namespace FileManager
 
         public virtual string Text
         {
-            get
-            {
-                return _text;
-            }
-
-            set
-            {
-                _text = value;
-                OnPropertyChanged();
-            }
+            get => _text;
+            set => SetProperty(value, ref _text);
         }
 
         protected GridItem()
         {
-
         }
 
-        protected GridItem(string text)
+        protected GridItem(string text) : this()
         {
             this.Text = text;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
