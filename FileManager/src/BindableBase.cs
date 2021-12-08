@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace FileManager.ViewModels
+namespace FileManager
 {
     public abstract class BindableBase : INotifyPropertyChanged
     {
