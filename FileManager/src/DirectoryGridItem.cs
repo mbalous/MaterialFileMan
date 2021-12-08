@@ -1,5 +1,4 @@
 ﻿using FileManager.Core.Annotations;
-using FileManager.Properties;
 using MaterialDesignThemes.Wpf;
 
 namespace FileManager

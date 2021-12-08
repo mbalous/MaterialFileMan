@@ -1,5 +1,4 @@
 ﻿using FileManager.Core.Annotations;
-using FileManager.Properties;
 using MaterialDesignThemes.Wpf;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
