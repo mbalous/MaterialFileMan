@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using FileManager.Controls;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FileManager.Views

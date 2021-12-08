@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace FileManager
+namespace FileManager.Controls
 {
     public class SystemMenuWindow : Window
     {
