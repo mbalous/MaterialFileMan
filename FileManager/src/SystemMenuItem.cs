@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FileManager
@@ -15,7 +16,7 @@ namespace FileManager
             nameof(Header), typeof(string), typeof(SystemMenuItem));
 
         public static readonly DependencyProperty IdProperty = DependencyProperty.Register(
-            nameof(Id), typeof(int), typeof(SystemMenuItem));
+            nameof(Id), typeof(uint), typeof(SystemMenuItem));
 
         public ICommand Command
         {
@@ -35,10 +36,15 @@ namespace FileManager
             set { SetValue(HeaderProperty, value); }
         }
 
-        public int Id
+        public uint Id
         {
-            get { return (int)GetValue(IdProperty); }
+            get { return (uint)GetValue(IdProperty); }
             set { SetValue(IdProperty, value); }
+        }
+
+        public SystemMenuItem()
+        {
+            Id = (uint) Random.Shared.Next(1000, 10000);
         }
 
         protected override Freezable CreateInstanceCore()

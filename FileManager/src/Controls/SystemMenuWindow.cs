@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using Windows.Win32;
 
 namespace FileManager.Controls
 {
@@ -14,11 +14,10 @@ namespace FileManager.Controls
         public FreezableCollection<SystemMenuItem> MenuItems
         {
             get { return (FreezableCollection<SystemMenuItem>)this.GetValue(MenuItemsProperty); }
-
             set { this.SetValue(MenuItemsProperty, value); }
         }
 
-        private IntPtr systemMenu;
+        private DestroyMenuSafeHandle systemMenu;
 
         /// <summary>
         /// Initializes a new instance of the SystemMenuWindow class.
@@ -26,47 +25,59 @@ namespace FileManager.Controls
         public SystemMenuWindow()
         {
             this.Loaded += this.SystemMenuWindow_Loaded;
+            this.Unloaded += this.SystemMenuWindow_Unloaded;
 
             this.MenuItems = new FreezableCollection<SystemMenuItem>();
         }
 
+
         private static void OnMenuItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SystemMenuWindow obj = d as SystemMenuWindow;
-
-            if (obj != null)
-            {
-                if (e.NewValue != null)
-                {
-                    obj.MenuItems = e.NewValue as FreezableCollection<SystemMenuItem>;
-                }
-            }
+            if (d is SystemMenuWindow window && e.NewValue is FreezableCollection<SystemMenuItem> collection)
+                window.MenuItems = collection;
         }
 
-        private void SystemMenuWindow_Loaded(object sender, RoutedEventArgs e)
+        private unsafe void SystemMenuWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            WindowInteropHelper interopHelper = new WindowInteropHelper(this);
-            this.systemMenu = Native.GetSystemMenu(interopHelper.Handle, false);
+            var interopHelper = new WindowInteropHelper(this);
+            this.systemMenu = PInvoke.GetSystemMenu_SafeHandle((Windows.Win32.Foundation.HWND)interopHelper.Handle, false);
 
             if (this.MenuItems.Count > 0)
             {
-                Native.InsertMenuW(this.systemMenu, -1, Native.MF_BYPOSITION | Native.MF_SEPARATOR, 0, String.Empty);
+                PInvoke.InsertMenu(
+                    this.systemMenu,
+                    10,
+                    Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_BYPOSITION | Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_SEPARATOR,
+                    0,
+                    string.Empty);
             }
 
-            foreach (SystemMenuItem item in this.MenuItems)
+            foreach (var item in MenuItems)
             {
-                Native.InsertMenuW(this.systemMenu, (int)item.Id, Native.MF_BYCOMMAND | Native.MF_STRING, (uint)item.Id, item.Header);
+                PInvoke.InsertMenu(
+                    this.systemMenu,
+                    10,
+                    Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_BYCOMMAND | Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_STRING,
+                    item.Id,
+                    item.Header);
             }
 
             HwndSource hwndSource = HwndSource.FromHwnd(interopHelper.Handle);
             hwndSource.AddHook(this.WndProc);
         }
 
+
+        private void SystemMenuWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.systemMenu.Close();
+        }
+
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+
             switch ((uint)msg)
             {
-                case Native.WM_SYSCOMMAND:
+                case Windows.Win32.PInvoke.WM_SYSCOMMAND:
                     SystemMenuItem menuItem = this.MenuItems.Where(mi => mi.Id == wParam.ToInt32()).FirstOrDefault();
                     if (menuItem != null)
                     {
@@ -76,13 +87,13 @@ namespace FileManager.Controls
 
                     break;
 
-                case Native.WM_INITMENUPOPUP:
-                    if (this.systemMenu == wParam)
+                case Windows.Win32.PInvoke.WM_INITMENUPOPUP:
+                    if (this.systemMenu.DangerousGetHandle() == wParam)
                     {
                         foreach (SystemMenuItem item in this.MenuItems)
                         {
-                            uint canExecute = item.Command.CanExecute(item.CommandParameter) ? Native.MF_ENABLED : Native.MF_DISABLED;
-                            Native.EnableMenuItem(this.systemMenu, (uint)item.Id, canExecute);
+                            var flag = item.Command.CanExecute(item.CommandParameter) ? Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_ENABLED : Windows.Win32.UI.WindowsAndMessaging.MENU_ITEM_FLAGS.MF_DISABLED;
+                            Windows.Win32.PInvoke.EnableMenuItem(this.systemMenu, item.Id, flag);
                         }
                         handled = true;
                     }
@@ -94,3 +105,4 @@ namespace FileManager.Controls
         }
     }
 }
+

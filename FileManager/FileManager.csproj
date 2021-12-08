@@ -5,12 +5,17 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
 	<ImplicitUsings>disable</ImplicitUsings>
-    <UseWPF>true</UseWPF>	
+    <UseWPF>true</UseWPF>
+	<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>	
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.619-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
