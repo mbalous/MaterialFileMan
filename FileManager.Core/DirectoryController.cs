@@ -85,14 +85,15 @@ namespace FileManager.Core
             string fullPath = Path.Combine(this.CurrentPath, name);
             if (File.Exists(fullPath))
             {
-                if (HasWritePermissionsOnFile(name))
+                try
                 {
-
                     File.Delete(fullPath);
                     Debug.WriteLine($"Deleted file \"{fullPath}\".");
                 }
+                catch (Exception ex)
+                {
 
-
+                }
             }
 
             if (Directory.Exists(fullPath))
@@ -126,9 +127,9 @@ namespace FileManager.Core
                 EnableRaisingEvents = true,
             };
 
-            _watcher.Created += _watcher_Created;
-            _watcher.Deleted += _watcher_Deleted;
-            _watcher.Renamed += _watcher_Renamed;
+            _watcher.Created += Watcher_Created;
+            _watcher.Deleted += Watcher_Deleted;
+            _watcher.Renamed += Watcher_Renamed;
             SetCurrentDirectory(path);
         }
 
@@ -139,30 +140,23 @@ namespace FileManager.Core
 
         #endregion
 
-        private bool HasWritePermissionsOnFile(string path)
-        {
-            // TODO: IMPLEMENT
-            // This will be interesting as .NET standard does not have the required methods...
-            return true;
-        }
-
         private DirectoryInfo _currentDirectoryInfo;
 
         private FileSystemWatcher _watcher;
 
-        private void _watcher_Created(object sender, FileSystemEventArgs e)
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
             this.ChildItemsChanged?.Invoke(sender, e);
             System.Diagnostics.Debug.WriteLine("File created...");
         }
 
-        private void _watcher_Deleted(object sender, FileSystemEventArgs e)
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
             this.ChildItemsChanged?.Invoke(sender, e);
             System.Diagnostics.Debug.WriteLine("File deleted...");
         }
 
-        private void _watcher_Renamed(object sender, RenamedEventArgs e)
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
             this.ChildItemsChanged?.Invoke(sender, e);
             System.Diagnostics.Debug.WriteLine("File renamed...");

@@ -28,41 +28,41 @@ namespace FileManager.Controls
 
         // Using a DependencyProperty as the backing store for ElementSizing.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ElementSizingProperty =
-            DependencyProperty.Register("ElementSizing", typeof(double), typeof(FileBrowser), new PropertyMetadata(12d));
+            DependencyProperty.Register(nameof(ElementSizing), typeof(double), typeof(FileBrowser), new PropertyMetadata(12d));
 
         /// <summary>
         /// Create new FileBrowser. 
         /// Current directory is going to be used upon start.
         /// </summary>
         public FileBrowser() : this(Directory.GetCurrentDirectory())
-        {            
+        {
         }
 
         public FileBrowser(string currentPath)
         {
-            InitializeComponent();
             this._fileSystemWrapper = new DirectoryController(currentPath, true);
+
+            this.Unloaded += (sender, e) =>
+            {
+                this._fileSystemWrapper.Dispose();
+            };
+
+            InitializeComponent();   
+
+            GetAndSetItems();
+
             this._fileSystemWrapper.CurrentPathChanged += (s, e) =>
             {
                 GetAndSetItems();
             };
 
-            this._fileSystemWrapper.ChildItemsChanged += _fileSystemWrapper_ChildItemsChanged;
-
-            this.DataGridItems.CellEditEnding += DataGridItems_CellEditEnding;
-
-            GetAndSetItems();
-        }
-
-        private void _fileSystemWrapper_ChildItemsChanged(object sender, FileSystemEventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
+            this._fileSystemWrapper.ChildItemsChanged += (sender, e) =>
             {
                 if (e.ChangeType == WatcherChangeTypes.Created || e.ChangeType == WatcherChangeTypes.Deleted)
                 {
-                    GetAndSetItems();
+                    Application.Current.Dispatcher.Invoke(() => GetAndSetItems());
                 }
-            });
+            };
         }
 
         private void DataGridItems_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -75,8 +75,7 @@ namespace FileManager.Controls
                 if (fsi.Text != newValue)
                 {
                     this._fileSystemWrapper.RenameChildItem(fsi.Text, newValue);
-                }        
-                
+                }
             }
             else
             {
@@ -147,11 +146,11 @@ namespace FileManager.Controls
             {
                 ProcessStartInfo pci = new ProcessStartInfo(file.Text)
                 {
-                    UseShellExecute = true
+                    UseShellExecute = true,
                 };
                 try
                 {
-                    using (Process.Start(pci)) { }
+                    using (var process = Process.Start(pci)) { }
                 }
                 catch (Win32Exception ex) // Win32Exception is thrown when trying to launch .dll for example
                 {
@@ -167,7 +166,7 @@ namespace FileManager.Controls
 
                 catch (Exception ex)
                 {
-                    
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
             }
         }
@@ -207,7 +206,7 @@ namespace FileManager.Controls
         }
 
         private void DataGridMenuItemDelete(object sender, RoutedEventArgs e)
-        {            
+        {
             e.Handled = true;
             DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
             if (targetCell.Item is FileSystemGridItem fsi)
@@ -215,7 +214,6 @@ namespace FileManager.Controls
                 this._fileSystemWrapper.DeleteChildItem(fsi.Text);
             }
         }
-
 
         private DataGridCellInfo GetTargetCellInternal<T>(RoutedEventArgs e)
         {
