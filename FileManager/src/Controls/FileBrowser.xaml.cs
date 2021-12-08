@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -67,13 +68,30 @@ namespace FileManager.Controls
             };
         }
 
+        private static readonly Regex _invalidPathRegex = new Regex(@"^(?!^(?:PRN|AUX|CLOCK\$|NUL|CON|COM\d|LPT\d)(?:\..+)?$)(?:\.*?(?!\.))[^\x00-\x1f\\?*:\"";|\/<>]+(?<![\s.])$", RegexOptions.Compiled);
+
         private void DataGridItems_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction != DataGridEditAction.Commit) { return; }
+            if (e.EditAction != DataGridEditAction.Commit)
+                return;
+
             string newValue = ((TextBox)e.EditingElement).Text;
             if (e.EditingElement.DataContext is FileSystemItem fsi)
             {
-                this._fileSystemWrapper.RenameChildItem(fsi.FullPath, newValue);
+                if (!_invalidPathRegex.IsMatch(newValue))
+                {
+                    e.Cancel = true;
+                    return; // invalid path
+                }
+
+                try
+                {
+                    this._fileSystemWrapper.RenameChildItem(fsi.FullPath, newValue);
+                }
+                catch (Exception ex)
+                {
+                    ShowException(ex);
+                }
             }
             else
             {
@@ -84,11 +102,11 @@ namespace FileManager.Controls
         private async void GetAndSetItems()
         {
             FileSystemInfo[] childItems = _fileSystemWrapper.GetChildItems();
-                   
+
             if (this.Dispatcher.CheckAccess())
-                await this.Dispatcher.InvokeAsync(GenerateAndSet);
-            else
                 GenerateAndSet();
+            else
+                await this.Dispatcher.InvokeAsync(GenerateAndSet);
 
             void GenerateAndSet()
             {
@@ -104,7 +122,7 @@ namespace FileManager.Controls
 
             if (_fileSystemWrapper.CanTraverseUpwards)
                 browserItems.Add(new GoUpItem());
-            
+
             foreach (FileSystemInfo item in fileSystemInfos)
             {
                 browserItems.Add(FileSystemItem.Create(item));
@@ -206,7 +224,7 @@ namespace FileManager.Controls
         private void DataGridMenuItemRename(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
+            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>();
             if (targetCell.Item is FileSystemItem fsi)
             {
                 this.DataGridItems.CurrentCell = targetCell;
@@ -217,18 +235,24 @@ namespace FileManager.Controls
         private void DataGridMenuItemDelete(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>(e);
+            DataGridCellInfo targetCell = GetTargetCellInternal<MaterialDesignThemes.Wpf.DataGridTextColumn>();
             if (targetCell.Item is FileSystemItem fsi)
             {
-                this._fileSystemWrapper.DeleteChildItem(fsi.FullPath);
+                try
+                {
+                    this._fileSystemWrapper.DeleteChildItem(fsi.FullPath);
+                }
+                catch (Exception ex)
+                {
+                    ShowException(ex);
+                }
             }
         }
 
-        private DataGridCellInfo GetTargetCellInternal<T>(RoutedEventArgs e)
+        private DataGridCellInfo GetTargetCellInternal<T>()
         {
-            IList<DataGridCellInfo> cells = this.DataGridItems.SelectedCells;
-            DataGridCellInfo targetCell = cells.First(x => x.Column.GetType() == typeof(T));
-            return targetCell;
+            IList<DataGridCellInfo> selectedCells = this.DataGridItems.SelectedCells;
+            return selectedCells.FirstOrDefault(x => x.Column is T);
         }
     }
 }
