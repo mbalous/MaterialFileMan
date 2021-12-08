@@ -19,7 +19,6 @@
             <ContextMenu x:Key="RowContextMenu">
                 <MenuItem Header="Delete" Click="DataGridMenuItemDelete" />
                 <MenuItem Header="Rename" Click="DataGridMenuItemRename" />
-                <MenuItem Header="Delete" Click="DataGridMenuItemDelete" />
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -96,6 +95,12 @@
                             </Style>
                         </materialDesign:DataGridTextColumn.EditingElementStyle>
                     </materialDesign:DataGridTextColumn>
+
+
+                    <!-- Third column -->
+                    <materialDesign:DataGridTextColumn Header="Size" 
+                                                       Binding="{Binding HumanReadableSize}" 
+                                                       IsReadOnly="true"/>
 
                 </DataGrid.Columns>
             </DataGrid>

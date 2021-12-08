@@ -5,11 +5,14 @@ namespace FileManager
 {
     public class FileItem : FileSystemItem
     {
-        public FileItem(string fileName, string fullPath) : base(fileName, fullPath)
+        public FileItem(string fileName, string fullPath, string humanReadableSize) : base(fileName, fullPath)
         {
             string extension = Path.GetExtension(fileName);
             this.Icon = GetIconFromExtension(extension);
+            this.HumanReadableSize = humanReadableSize;
         }
+
+        public string HumanReadableSize { get; }
 
         private PackIcon GetIconFromExtension(string extension)
         {

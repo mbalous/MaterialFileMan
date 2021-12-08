@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FileManager
 {
@@ -11,9 +13,19 @@ namespace FileManager
             this.FullPath = fullPath;
         }
 
-        public static FileSystemItem Create(FileSystemInfo fileSystemInfo)
+        public unsafe static FileSystemItem Create(FileSystemInfo fileSystemInfo)
         {
-            if (IsDirectory(fileSystemInfo))
+            if (fileSystemInfo is FileInfo fileInfo)
+            {
+                const uint buffer_size = 50;
+                fixed (char* buffer = new char[buffer_size])
+                {
+                    var result = Windows.Win32.PInvoke.StrFormatByteSize(fileInfo.Length, buffer, buffer_size);
+                    return new FileItem(fileSystemInfo.Name, fileSystemInfo.FullName, new string(buffer));
+                }
+
+            }
+            else
             {
                 return new DirectoryItem(fileSystemInfo.Name, fileSystemInfo.FullName);
             }

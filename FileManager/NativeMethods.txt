@@ -3,3 +3,4 @@ InsertMenuW
 EnableMenuItem
 WM_SYSCOMMAND
 WM_INITMENUPOPUP
+StrFormatByteSizeW
