@@ -6,8 +6,13 @@
     <Nullable>disable</Nullable>
 	<ImplicitUsings>disable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>	
+	<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
+	<ApplicationIcon>icon.ico</ApplicationIcon>	
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
